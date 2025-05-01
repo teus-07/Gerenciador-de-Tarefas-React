@@ -25,7 +25,7 @@ function App() {
 
   function onTaskClick(taskId) {
     const newTasks = tasks.map(task => {
-      if (task.id == taskId) {
+      if (task.id == taskId ) {
         return { ...task , isCompleted: !task.isCompleted };
       }
       return task;
