@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AddTasks from "./components/AddTasks";
+import AddTask from "./components/AddTask";
 import Tasks from "./components/Tasks";
 function App() {
   const [tasks, setTasks] = useState([
@@ -24,23 +24,42 @@ function App() {
   ]);
 
   function onTaskClick(taskId) {
-    const newTasks = tasks.map(task => {
-      if (task.id == taskId ) {
-        return { ...task , isCompleted: !task.isCompleted };
+    const newTasks = tasks.map((task) => {
+      if (task.id == taskId) {
+        return { ...task, isCompleted: !task.isCompleted };
       }
       return task;
     });
     setTasks(newTasks);
   }
 
+  function onDeleteTaskClick(taskId) {
+    const newTasks = tasks.filter((task) => task.id != taskId);
+    setTasks(newTasks);
+  }
+
+  function onTaskAddSubmit(title, description) {
+    const newTask = {
+      id: tasks.length + 1,
+      title,
+      description,
+      isCompleted: false,
+    };
+    setTasks([...tasks, newTask]);
+  }
+
   return (
     <div className="bg-slate-500 h-screen w-screen flex justify-center">
-      <div>
+      <div className="space-y-4 w-[500px]">
         <h1 className="text-slate-100 text-3xl font-bold text-center">
           Gerenciador de Tarefas
         </h1>
-        <Tasks tasks={tasks} onTaskClick={onTaskClick} />
-        <AddTasks />
+        <AddTask onTaskAddSubmit={onTaskAddSubmit} />
+        <Tasks
+          tasks={tasks}
+          onTaskClick={onTaskClick}
+          onDeleteTaskClick={onDeleteTaskClick}
+        />
       </div>
     </div>
   );
